@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
     final height = size.height;
 
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: PreferredSize(  
         preferredSize: Size.fromHeight(height * 0.15),
         child: AppBar(
           backgroundColor: const Color(0xFF0862A4),

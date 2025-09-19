@@ -1,29 +1,26 @@
 import 'package:caxita/model/flight_model.dart';
 import 'package:caxita/service/flight_service.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+class FlightProvider with ChangeNotifier {
+  final FlightService flightService = FlightService();
 
-class JourneyProvider with ChangeNotifier {
-  final JourneyService _service = JourneyService();
+  List<FlightTripModel> flights = [];
+  bool isLoading = false;
+  String? errorMessage;
 
-  List<Journey> _journeys = [];
-  bool _isLoading = false;
-  String? _error;
 
-  List<Journey> get journeys => _journeys;
-  bool get isLoading => _isLoading;
-  String? get error => _error;
-
-  Future<void> loadJourneys() async {
-    _isLoading = true;
-    _error = null;
+  Future<void> fetchFlights() async {
+    isLoading = true;
+    errorMessage = null;
     notifyListeners();
 
     try {
-      _journeys = await _service.fetchJourneys();
+      final result = await flightService.fetchFlightTrips();
+      flights = result;
     } catch (e) {
-      _error = e.toString();
+      errorMessage = e.toString();
     } finally {
-      _isLoading = false;
+      isLoading = false;
       notifyListeners();
     }
   }
